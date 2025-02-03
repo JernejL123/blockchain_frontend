@@ -8,9 +8,9 @@ function App() {
 
   return (
     <>
-       <Blockchain/>
        <MineBlock/>
        <Peers/>
+       <Blockchain/>
     </>
   )
 }

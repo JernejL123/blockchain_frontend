@@ -2,33 +2,38 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const MineBlock = () => {
-    const [data, setData] = useState('');
-    const [newBlock, setNewBlock] = useState(null);
+    let isMining = false; // Manual flag outside of state
 
-    const mineBlock = () => {
-        axios.post('http://localhost:3000/mine', { data })
-            .then(response => setNewBlock(response.data))
-            .catch(err => console.error(err));
+    const startMining = async () => {
+        isMining = true; // Set the flag to true
+        console.log("STARTED MINING");
+
+        while (isMining) {
+            try {
+                const data = `Auto-mined block PORT4000`;
+                const response = await axios.post("http://localhost:4000/mine", { data });
+                console.log("Mining request sent to backend...");
+                console.log("Mined a new block:", response.data);
+            } catch (error) {
+                console.error("Error while mining block:", error);
+            }
+        }
+    };
+
+    const stopMining = () => {
+        isMining = false; // Set the flag to false
+        console.log("MINING STOPPED");
     };
 
     return (
         <div>
-            <h1>Mine a Block</h1>
-            <input
-                type="text"
-                placeholder="Enter data for the block"
-                value={data}
-                onChange={(e) => setData(e.target.value)}
-            />
-            <button onClick={mineBlock}>Mine Block</button>
-            {newBlock && (
-                <div>
-                    <h3>New Block Created:</h3>
-                    <p>Index: {newBlock.index}</p>
-                    <p>Hash: {newBlock.hash}</p>
-                    <p>Data: {newBlock.data}</p>
-                </div>
-            )}
+            <h1>Mine Blocks</h1>
+            <button onClick={startMining}>
+                Start Mining
+            </button>
+            <button onClick={stopMining}>
+                Stop Mining
+            </button>
         </div>
     );
 };

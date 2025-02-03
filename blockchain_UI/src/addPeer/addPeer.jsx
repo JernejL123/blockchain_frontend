@@ -5,7 +5,7 @@ const Peers = () => {
     const [peer, setPeer] = useState('');
 
     const addPeer = () => {
-        axios.post('http://localhost:3000/addPeer', { peer })
+        axios.post('http://localhost:4000/addPeer', { peer })
             .then(() => alert('Peer added successfully!'))
             .catch(err => console.error(err));
     };
